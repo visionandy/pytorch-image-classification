@@ -22,8 +22,8 @@ args= vars(ap.parse_args())
 train_mode=args["mode"]
 
 # Set the train and validation directory paths
-train_directory = 'imdb_small/train'
-valid_directory = 'imdb_small/val'
+train_directory = '/home/andywang/project/dataset/rock/v1/task3/train'
+valid_directory = '/home/andywang/project/dataset/rock/v1/task3/val'
 # Set the model save path
 PATH="model.pth" 
 
