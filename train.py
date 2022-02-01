@@ -200,8 +200,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
                 # statistics
                 running_loss += loss.item() * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data)
-                predic_ma.append(preds)
-                ground_ma.append(labels.data)
+
 
                 if phase == 'train':
                     scheduler.step()
