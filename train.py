@@ -31,12 +31,15 @@ valid_directory = home_directory+version_num+'/'+task_v+'/val'
 SAVE_PATH="/home/andywang/project/"+version_num+'_'+task_v
 if not os.path.exists(SAVE_PATH):
     os.makedirs(SAVE_PATH)
-PATH=SAVE_PATH+"/model.pth" 
 
 # Batch size
-bs = 10
+bs = 100
 # Number of epochs
 num_epochs = 1
+
+PATH=SAVE_PATH+"/model_epoch_"+str(num_epochs)+".pth" 
+
+
 # Number of classes
 num_classes = len(glob.glob(train_directory+'/*/'))
 # Number of workers
