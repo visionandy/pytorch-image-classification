@@ -203,18 +203,18 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
                 predic_ma.append(preds)
                 ground_ma.append(labels.data)
 
-            if phase == 'train':
-                scheduler.step()
+                if phase == 'train':
+                    scheduler.step()
 
-            if not phase== 'train':
+                if not phase== 'train':
 
-                if not predic_ma:
-                    predic_ma=preds
-                    ground_ma=labels.data
+                    if not predic_ma:
+                        predic_ma=preds
+                        ground_ma=labels.data
 
-                else:
-                    predic_ma=torch.cat(predc_ma,preds)
-                    ground_ma=torch.cat(ground_ma,labels.data)
+                    else:
+                        predic_ma=torch.cat(predc_ma,preds)
+                        ground_ma=torch.cat(ground_ma,labels.data)
 
             import IPython
             IPython.embed()
