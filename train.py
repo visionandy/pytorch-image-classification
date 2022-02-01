@@ -21,9 +21,16 @@ args= vars(ap.parse_args())
 # Set training mode
 train_mode=args["mode"]
 
+# Set the train and validation directory paths
+train_directory = '/home/andywang/project/dataset/rock/v2/task1/train'
+valid_directory = '/home/andywang/project/dataset/rock/v2/task1/val'
+# Set the model save path
+PATH="task3/model.pth" 
+
+
 home_directory='/home/andywang/project/dataset/rock/'
 version_num='v2'
-task_v='task2'
+task_v='task1'
 # Set the train and validation directory paths
 train_directory = home_directory+version_num+'/'+task_v+'/train'
 valid_directory = home_directory+version_num+'/'+task_v+'/val'
@@ -32,10 +39,12 @@ SAVE_PATH="/home/andywang/project/"+version_num+'_'+task_v
 if not os.path.exists(SAVE_PATH):
     os.makedirs(SAVE_PATH)
 
+
+
 # Batch size
-bs = 100
+bs = 10
 # Number of epochs
-num_epochs = 100
+num_epochs = 10
 
 PATH=SAVE_PATH+"/model_epoch_"+str(num_epochs)+".pth" 
 
@@ -204,7 +213,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
             #import IPython
             #IPython.embed()
 
-                if  phase== 'val':
+                if  phase== 'valid':
 
                     if len(predic_ma)==0 and len(ground_ma)==0:
                         predic_ma=preds
@@ -216,9 +225,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
 
 
 
-            if  phase== 'val':
-
-
+            if  phase== 'valid':
                 confusion_matrix = torch.zeros(num_classes, num_classes)
                 for t, p in zip(labels.data.view(-1), preds.view(-1)):
                     confusion_matrix[t.long(), p.long()] += 1
