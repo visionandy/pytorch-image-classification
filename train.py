@@ -35,7 +35,7 @@ if not os.path.exists(SAVE_PATH):
 # Batch size
 bs = 100
 # Number of epochs
-num_epochs = 1
+num_epochs = 100
 
 PATH=SAVE_PATH+"/model_epoch_"+str(num_epochs)+".pth" 
 
