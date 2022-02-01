@@ -224,7 +224,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
                 confusion_matrix = torch.zeros(num_classes, num_classes)
                 for t, p in zip(labels.data.view(-1), preds.view(-1)):
                     confusion_matrix[t.long(), p.long()] += 1
-                print(confusion_matrix)
+                #print(confusion_matrix)
 
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = float(running_corrects)/ dataset_sizes[phase]
