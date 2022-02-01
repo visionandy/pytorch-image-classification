@@ -12,7 +12,7 @@ import time, os, copy, argparse
 import multiprocessing
 from torchsummary import summary
 from matplotlib import pyplot as plt
-
+import glob
 # Construct argument parser
 ap = argparse.ArgumentParser()
 ap.add_argument("--mode", required=True, help="Training mode: finetue/transfer/scratch")
@@ -21,16 +21,22 @@ args= vars(ap.parse_args())
 # Set training mode
 train_mode=args["mode"]
 
+home_directory='/home/andywang/project/dataset/rock/'
+version_num='v2'
+task_v='task1'
 # Set the train and validation directory paths
-train_directory = '/home/andywang/project/dataset/rock/v2/task1/train'
-valid_directory = '/home/andywang/project/dataset/rock/v2/task1/val'
+train_directory = home_directory+version_num+'/'+task_v+'/train'
+valid_directory = home_directory+version_num+'/'+task_v+'/val'
 # Set the model save path
-PATH="task3/model.pth" 
+SAVE_PATH="/home/andywang/project/"+version_num+'_'+task_v
+if not os.path.exists(SAVE_PATH):
+    os.makedirs(SAVE_PATH)
+PATH=SAVE_PATH+"/model.pth" 
 
 # Batch size
 bs = 10
 # Number of epochs
-num_epochs = 100
+num_epochs = 1
 # Number of classes
 num_classes = len(glob.glob(train_directory+'/*/'))
 # Number of workers
