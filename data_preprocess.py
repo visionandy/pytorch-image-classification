@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import glob
 import random
@@ -5,13 +6,13 @@ import shutil
 
 ratio=0.9
 
-data_input_path='/home/andywang/class_abc_800FPhotos/'
-data_output_path='/home/andywang/project/dataset/rock/v1/'
+data_input_path='/home/andywang/class_a_b_c_01292022/'
+data_output_path='/home/andywang/project/dataset/rock/v2/'
 task_list=['task1','task2','task3']
 folder_list=glob.glob(data_input_path+'*/') ## 1st folder hierarchy
 
 
-
+folder_list.sort()
         ###file copy
         
 def file_copy_fun(source_file_list,destina_folder):
@@ -27,7 +28,7 @@ def folder_check(folder_create):
 
 
 for i in range(len(task_list)):   
-    input_folder_id=folder_list[1]  ## 1st folder hierarchy
+    input_folder_id=folder_list[i]  ## 1st folder hierarchy
     sub_folder_list=glob.glob(input_folder_id+'*/') 
     output_folder_id=data_output_path+task_list[i]+'/'
     if not os.path.exists(output_folder_id):
@@ -38,7 +39,8 @@ for i in range(len(task_list)):
 
     folder_check(train_task_path_i)
     folder_check(val_task_path_i)
-
+    #import IPython
+    #IPython.embed()
 
     for j in range(len(sub_folder_list)):  ## the 2nd folder hierarchy
         category_train_path=train_task_path_i+str(j)+'/'

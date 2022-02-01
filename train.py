@@ -22,17 +22,17 @@ args= vars(ap.parse_args())
 train_mode=args["mode"]
 
 # Set the train and validation directory paths
-train_directory = '/home/andywang/project/dataset/rock/v1/task3/train'
-valid_directory = '/home/andywang/project/dataset/rock/v1/task3/val'
+train_directory = '/home/andywang/project/dataset/rock/v2/task1/train'
+valid_directory = '/home/andywang/project/dataset/rock/v2/task1/val'
 # Set the model save path
-PATH="model.pth" 
+PATH="task3/model.pth" 
 
 # Batch size
-bs = 64 
+bs = 10
 # Number of epochs
-num_epochs = 10
+num_epochs = 100
 # Number of classes
-num_classes = 11
+num_classes = len(glob.glob(train_directory+'/*/'))
 # Number of workers
 num_cpu = multiprocessing.cpu_count()
 
@@ -57,8 +57,8 @@ image_transforms = {
 }
  
 
-import IPython
-IPython.embed()
+#import IPython
+#IPython.embed()
 # Load data from folders
 dataset = {
     'train': datasets.ImageFolder(root=train_directory, transform=image_transforms['train']),
@@ -192,9 +192,10 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
                 running_corrects += torch.sum(preds == labels.data)
             if phase == 'train':
                 scheduler.step()
-
+            #import IPython
+            #IPython.embed()
             epoch_loss = running_loss / dataset_sizes[phase]
-            epoch_acc = running_corrects.double() / dataset_sizes[phase]
+            epoch_acc = float(running_corrects)/ dataset_sizes[phase]
 
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                 phase, epoch_loss, epoch_acc))
