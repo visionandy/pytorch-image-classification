@@ -211,27 +211,31 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
                 # statistics
                 running_loss += loss.item() * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data)
+
+                #if  phase== 'valid':
+                if len(predic_ma)==0 and len(ground_ma)==0:
+                    predic_ma=preds
+                    ground_ma=labels.data
+
+                else:
+                    #import IPython
+                    #IPython.embed()
+                
+                    predic_ma=torch.cat((predic_ma,preds),0)
+                    ground_ma=torch.cat((ground_ma,labels.data),0)
+
+
             if phase == 'train':
                 scheduler.step()
             #import IPython
             #IPython.embed()
 
-                if  phase== 'valid':
-
-                    if len(predic_ma)==0 and len(ground_ma)==0:
-                        predic_ma=preds
-                        ground_ma=labels.data
-
-                    else:
-                        predic_ma=torch.cat(predc_ma,preds)
-                        ground_ma=torch.cat(ground_ma,labels.data)
-
-
 
             if  phase== 'valid':
                 confusion_matrix = torch.zeros(num_classes, num_classes)
-                for t, p in zip(labels.data.view(-1), preds.view(-1)):
+                for t, p in zip(ground_ma.view(-1), predic_ma.view(-1)):
                     confusion_matrix[t.long(), p.long()] += 1
+                print(confusion_matrix)
 
 
             epoch_loss = running_loss / dataset_sizes[phase]
