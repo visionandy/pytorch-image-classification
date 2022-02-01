@@ -175,8 +175,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
 
             running_loss = 0.0
             running_corrects = 0
-            predic_ma=[]
-            ground_ma=[]
+            predic_ma= torch.empty(0)  
+            ground_ma= torch.empty(0)  
             # Iterate over data.
             for inputs, labels in dataloaders[phase]:
                 inputs = inputs.to(device, non_blocking=True)
@@ -208,7 +208,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
 
                 if not phase== 'train':
 
-                    if not predic_ma:
+                    if len(predic_ma)==0 and len(ground_ma):
                         predic_ma=preds
                         ground_ma=labels.data
 
