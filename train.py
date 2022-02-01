@@ -175,6 +175,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
 
+        predic_ma= torch.empty(0)  
+        ground_ma= torch.empty(0)  
         # Each epoch has a training and validation phase
         for phase in ['train', 'valid']:
             if phase == 'train':
