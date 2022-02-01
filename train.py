@@ -175,7 +175,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
 
             running_loss = 0.0
             running_corrects = 0
-
+            predic_ma=[]
+            ground_ma=[]
             # Iterate over data.
             for inputs, labels in dataloaders[phase]:
                 inputs = inputs.to(device, non_blocking=True)
@@ -199,10 +200,31 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
                 # statistics
                 running_loss += loss.item() * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data)
+                predic_ma.append(preds)
+                ground_ma.append(labels.data)
+
             if phase == 'train':
                 scheduler.step()
-            #import IPython
-            #IPython.embed()
+
+            if not phase== 'train':
+
+                if not predic_ma:
+                    predic_ma=preds
+                    ground_ma=labels.data
+
+                else:
+                    predic_ma=torch.cat(predc_ma,preds)
+                    ground_ma=torch.cat(ground_ma,labels.data)
+
+            import IPython
+            IPython.embed()
+
+
+            confusion_matrix = torch.zeros(num_classes, num_classes)
+            for t, p in zip(labels.data.view(-1), preds.view(-1)):
+                confusion_matrix[t.long(), p.long()] += 1
+            print(confusion_matrix)
+
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = float(running_corrects)/ dataset_sizes[phase]
 
