@@ -7,15 +7,29 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 # Paths for image directory and model
-IMDIR=sys.argv[1])
-MODEL='models/resnet18.pth'
+
+
+
+home_directory='/home/andywang/project/dataset/rock/'
+version_num='v2'
+task_v='task2'
+# Set the train and validation directory paths
+train_directory = home_directory+version_num+'/'+task_v+'/train'
+valid_directory = home_directory+version_num+'/'+task_v+'/val'
+# Set the model save path
+SAVE_PATH="/home/andywang/project/model/"+version_num+'_'+task_v
+MODEL=SAVE_PATH+"/model_epoch_50.pth" 
+
+
+IMDIR='/home/andywang/project/dataset/Testing/combi/'#sys.argv[1])
+#MODEL='models/resnet18.pth'
 
 # Load the model for testing
 model = torch.load(MODEL)
 model.eval()
 
 # Class labels for prediction
-class_names=['apple','atm card','cat','banana','bangle','battery','bottle','broom','bulb','calender','camera']
+class_names=['part1','part2','part3']
 
 # Retreive 9 random images from directory
 files=Path(IMDIR).resolve().glob('*.*')
@@ -37,6 +51,7 @@ preprocess=transforms.Compose([
 # Enable gpu mode, if cuda available
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+
 # Perform prediction and plot results
 with torch.no_grad():
     for num,img in enumerate(images):
@@ -49,6 +64,7 @@ with torch.no_grad():
          plt.title("Pred: "+label)
          plt.axis('off')
          plt.imshow(img)
+    plt.show()
 '''
 Sample run: python test.py test
 '''

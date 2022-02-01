@@ -22,29 +22,29 @@ args= vars(ap.parse_args())
 train_mode=args["mode"]
 
 # Set the train and validation directory paths
-train_directory = '/home/andywang/project/dataset/rock/v2/task1/train'
-valid_directory = '/home/andywang/project/dataset/rock/v2/task1/val'
-# Set the model save path
-PATH="task3/model.pth" 
+# train_directory = '/home/andywang/project/dataset/rock/v2/task1/train'
+# valid_directory = '/home/andywang/project/dataset/rock/v2/task1/val'
+# # Set the model save path
+# PATH="task3/model.pth" 
 
 
 home_directory='/home/andywang/project/dataset/rock/'
 version_num='v2'
-task_v='task1'
+task_v='task2'
 # Set the train and validation directory paths
 train_directory = home_directory+version_num+'/'+task_v+'/train'
 valid_directory = home_directory+version_num+'/'+task_v+'/val'
 # Set the model save path
-SAVE_PATH="/home/andywang/project/"+version_num+'_'+task_v
+SAVE_PATH="/home/andywang/project/model/"+version_num+'_'+task_v
 if not os.path.exists(SAVE_PATH):
     os.makedirs(SAVE_PATH)
 
 
 
 # Batch size
-bs = 10
+bs = 6
 # Number of epochs
-num_epochs = 10
+num_epochs = 50
 
 PATH=SAVE_PATH+"/model_epoch_"+str(num_epochs)+".pth" 
 
@@ -93,7 +93,7 @@ dataset_sizes = {
 dataloaders = {
     'train':data.DataLoader(dataset['train'], batch_size=bs, shuffle=True,
                             num_workers=num_cpu, pin_memory=True, drop_last=True),
-    'valid':data.DataLoader(dataset['valid'], batch_size=bs, shuffle=True,
+    'valid':data.DataLoader(dataset['valid'], batch_size=dataset_sizes['valid'], shuffle=True,
                             num_workers=num_cpu, pin_memory=True, drop_last=True)
 }
 
@@ -212,17 +212,17 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
                 running_loss += loss.item() * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data)
 
-                #if  phase== 'valid':
-                if len(predic_ma)==0 and len(ground_ma)==0:
-                    predic_ma=preds
-                    ground_ma=labels.data
+                if  phase== 'valid':
+                    if len(predic_ma)==0 and len(ground_ma)==0:
+                        predic_ma=preds
+                        ground_ma=labels.data
 
-                else:
-                    #import IPython
-                    #IPython.embed()
-                
-                    predic_ma=torch.cat((predic_ma,preds),0)
-                    ground_ma=torch.cat((ground_ma,labels.data),0)
+                    else:
+                        #import IPython
+                        #IPython.embed()
+                    
+                        predic_ma=torch.cat((predic_ma,preds),0)
+                        ground_ma=torch.cat((ground_ma,labels.data),0)
 
 
             if phase == 'train':
@@ -232,6 +232,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
 
 
             if  phase== 'valid':
+                # import IPython
+                # IPython.embed()
                 confusion_matrix = torch.zeros(num_classes, num_classes)
                 for t, p in zip(ground_ma.view(-1), predic_ma.view(-1)):
                     confusion_matrix[t.long(), p.long()] += 1
