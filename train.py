@@ -203,6 +203,27 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=30):
                 scheduler.step()
             #import IPython
             #IPython.embed()
+
+                if  phase== 'val':
+
+                    if len(predic_ma)==0 and len(ground_ma)==0:
+                        predic_ma=preds
+                        ground_ma=labels.data
+
+                    else:
+                        predic_ma=torch.cat(predc_ma,preds)
+                        ground_ma=torch.cat(ground_ma,labels.data)
+
+
+
+            if  phase== 'val':
+
+
+                confusion_matrix = torch.zeros(num_classes, num_classes)
+                for t, p in zip(labels.data.view(-1), preds.view(-1)):
+                    confusion_matrix[t.long(), p.long()] += 1
+
+
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = float(running_corrects)/ dataset_sizes[phase]
 
