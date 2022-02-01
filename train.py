@@ -23,7 +23,7 @@ train_mode=args["mode"]
 
 home_directory='/home/andywang/project/dataset/rock/'
 version_num='v2'
-task_v='task1'
+task_v='task2'
 # Set the train and validation directory paths
 train_directory = home_directory+version_num+'/'+task_v+'/train'
 valid_directory = home_directory+version_num+'/'+task_v+'/val'
@@ -35,7 +35,7 @@ if not os.path.exists(SAVE_PATH):
 # Batch size
 bs = 100
 # Number of epochs
-num_epochs = 1
+num_epochs = 100
 
 PATH=SAVE_PATH+"/model_epoch_"+str(num_epochs)+".pth" 
 
