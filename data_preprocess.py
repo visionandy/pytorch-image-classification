@@ -6,8 +6,9 @@ import shutil
 
 ratio=0.9
 
-data_input_path='/home/andywang/class_a_b_c_01292022/'
-data_output_path='/home/andywang/project/dataset/rock/v2/'
+data_input_path='/home/andywang/class_a_b_c_large_0208_2022/'
+data_output_path='/home/andywang/project/dataset/rock/v5/'
+
 task_list=['task1','task2','task3']
 folder_list=glob.glob(data_input_path+'*/') ## 1st folder hierarchy
 

@@ -16,6 +16,8 @@ import glob
 # Construct argument parser
 ap = argparse.ArgumentParser()
 ap.add_argument("--mode", required=True, help="Training mode: finetue/transfer/scratch")
+ap.add_argument("--task", required=True, help="which task? should be 1, 2, or 3")
+ap.add_argument("--version", required=True, help="version number? should be v1, v2, v3, or v4")
 args= vars(ap.parse_args())
 
 # Set training mode
@@ -29,8 +31,9 @@ train_mode=args["mode"]
 
 
 home_directory='/home/andywang/project/dataset/rock/'
-version_num='v2'
-task_v='task2'
+version_num = args["version"]
+
+task_v='task' + args["task"]
 # Set the train and validation directory paths
 train_directory = home_directory+version_num+'/'+task_v+'/train'
 valid_directory = home_directory+version_num+'/'+task_v+'/val'
@@ -282,3 +285,5 @@ torch.save(model_ft, PATH)
 '''
 Sample run: python train.py --mode=finetue
 '''
+#task2
+#Best val Acc: 0.812500
